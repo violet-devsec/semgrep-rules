@@ -1,0 +1,43 @@
+rules:
+  - id: broken-access-control
+    patterns:
+      - pattern-either:
+        - patterns:
+          - pattern: |
+              [AllowAnonymous]
+              $R $M(...) {...}                     
+        - patterns:
+          - pattern: |
+              $R $M(...) {...}        
+          - pattern-not-inside: |
+              [Authorize(...)]
+              class $N{...}
+          - pattern-not-inside: |
+              [Authorize]
+              class $N{...}
+      - pattern-not: |
+          [Authorize(...)]
+          public $ACTIONRESULT $METHOD(...){ ... }
+      - pattern-not: |
+          [Authorize]
+          public $ACTIONRESULT $METHOD(...){ ... }
+      - pattern-inside: |
+          using Microsoft.AspNetCore.Authorization;
+          ...
+      - pattern-inside: |
+          using Microsoft.AspNetCore.Mvc; 
+          ...      
+    message: Missing Authorize attribute or having AllowAnonymous attribute on mvc controller/action level.
+    languages:
+      - csharp
+    severity: ERROR
+    metadata:
+      category: security
+      confidence: HIGH
+      license: MIT
+      technology:
+        - .net
+      cwe: "CWE-502: Deserialization of Untrusted Data"
+      owasp: A01:2021-Broken Access Control
+      references:
+        - https://owasp.org/Top10/A01_2021-Broken_Access_Control

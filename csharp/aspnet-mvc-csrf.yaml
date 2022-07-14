@@ -1,0 +1,14 @@
+rules:
+  - id: aspnet-mvc-csrf
+    patterns:
+      - pattern: |
+          [HttpPost]
+          public $IACTION $METHOD(...){...}
+      - pattern-not: |
+          [HttpPost]
+          [ValidateAntiForgeryToken]
+          public $IACTION $METHOD(...){...}
+    message: Missing antiforgery token on HTTP Post Action Method
+    languages:
+      - csharp
+    severity: WARNING

@@ -1,0 +1,44 @@
+rules:
+  - id: net-mvc-ssrf
+    patterns:
+        - pattern-either:
+            - pattern-inside: |
+                using Microsoft.AspNetCore.Http;
+                ...
+            - pattern-inside: |
+                using System.Net.Http;
+                ...
+        - pattern-either:
+            - pattern-inside: |
+                $T $F(..., $REQ, ...) { ... }
+        - pattern-either:
+            - pattern: |
+                $Y.PostAsync(...).$X(...);
+            - pattern: |
+                $Y.PostAsync($X);
+            - pattern: |
+                new $X.ReadAsStringAsync();
+            - pattern: |
+                new $Y.GetAsync($X);
+            - pattern: |
+                WebRequest.Create($X);
+            - pattern: |
+                $Y.GetAsync($X);
+            - pattern: |
+                $Y.GetAsync($X).$Z;
+            - pattern: |
+                $RETURN $METHOD(...,String $VAR, ...) {
+                    ...
+                    Uri $URL = new Uri($VAR);
+                    ...
+                }
+        - pattern-not: |
+                $Uri = new Uri("...");
+
+    message: User controlled URL in http client libraries can result in Server Side Request Forgery (SSRF).
+    languages:
+      - csharp
+    severity: ERROR
+    metadata:
+      owasp-web: a1
+      cwe: cwe-918

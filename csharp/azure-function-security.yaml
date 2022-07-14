@@ -1,0 +1,24 @@
+rules:
+  - id: az-function-broken-access-control
+    patterns:
+      - pattern-either:
+          - pattern-inside: |
+              using Microsoft.Azure.WebJobs;
+              ...
+          - pattern-inside: |
+              using Microsoft.Azure.WebJobs.Extensions.Http;
+              ...
+      - pattern-inside: |
+          public static class $CLASS{...}
+      - pattern-either:
+          - pattern: |
+              public static IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] $X $Y, ...) {...}
+          - pattern: |
+              public static IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] $X $Y, ...) {...}
+    message: Azure function with HTTP Trigger does not have any authentication.
+    languages:
+      - csharp
+    severity: ERROR
+    metadata:
+      owasp-web: "Broken Authentication"
+      cwe: A01:2021-Broken Access Control

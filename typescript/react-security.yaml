@@ -1,0 +1,37 @@
+rules:
+  - id: react-security
+    pattern-either:
+      # Possible XSS
+      - pattern : |
+          <$X dangerouslySetInnerHTML=... />
+      - pattern : |
+          {dangerouslySetInnerHTML: ...}
+      # Using set-state in current state
+      - patterns:
+          - pattern: $Y($X);
+          - pattern-inside: |
+              const [$X, $Y] = useState(...);
+              ...
+      # Unsanitized property
+      - patterns:
+          - pattern-either:
+              - pattern: |
+                  $X.innerHTML = ...;
+              - pattern: |
+                  $X.outerHTML = ...;
+          - pattern-not: |
+              $X.innerHTML = "...";
+          - pattern-not: |
+              $X.outerHTML = "...";
+    message: React security violation occured! (XSS/Set-State/Unsanitized property)
+    languages: 
+      - typescript
+      - javascript
+      - js
+    severity: ERROR
+    metadata:
+      owasp-web: "A7: Cross-Site Scripting (XSS)"
+      cwe: "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+      technology:
+        - react
+
