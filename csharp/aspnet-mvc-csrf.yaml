@@ -2,6 +2,14 @@ rules:
   - id: aspnet-mvc-csrf
     patterns:
       - pattern: |
+          [$HTTPMETHOD]
+          public IActionResult $METHOD(...){
+          ...
+          }
+      - pattern-inside: |
+          using Microsoft.AspNetCore.Mvc;
+          ...
+      - pattern: |
           [HttpPost]
           public $IACTION $METHOD(...){...}
       - pattern-not: |
