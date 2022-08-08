@@ -34,7 +34,6 @@ rules:
     metadata:
       category: security
       confidence: HIGH
-      license: MIT
       technology:
         - .net
       cwe: "CWE-502: Deserialization of Untrusted Data"
