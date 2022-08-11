@@ -1,0 +1,19 @@
+rules:
+  - id: react-security-setstate
+      - patterns:
+        - pattern: $Y($X);
+        - pattern-inside: |
+            const [$X, $Y] = useState(...);
+            ...
+    message: React security violation occured! (Set-State)
+    languages: 
+      - typescript
+      - javascript
+      - js
+    severity: ERROR
+    metadata:
+      owasp-web: ""
+      cwe: ""
+      technology:
+        - react
+

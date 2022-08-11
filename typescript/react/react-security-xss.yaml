@@ -1,17 +1,11 @@
 rules:
-  - id: react-security
+  - id: react-security-xss
     pattern-either:
       # Possible XSS
       - pattern : |
           <$X dangerouslySetInnerHTML=... />
       - pattern : |
           {dangerouslySetInnerHTML: ...}
-      # Using set-state in current state
-      - patterns:
-          - pattern: $Y($X);
-          - pattern-inside: |
-              const [$X, $Y] = useState(...);
-              ...
       # Unsanitized property
       - patterns:
           - pattern-either:
@@ -23,7 +17,7 @@ rules:
               $X.innerHTML = "...";
           - pattern-not: |
               $X.outerHTML = "...";
-    message: React security violation occured! (XSS/Set-State/Unsanitized property)
+    message: React security violation occured! (XSS/Unsanitized property)
     languages: 
       - typescript
       - javascript
