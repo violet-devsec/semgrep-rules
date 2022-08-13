@@ -1,5 +1,5 @@
 rules:
-  - id: detect-angular-sce-disabled
+  - id: angular-security-sce
     pattern: |
       $sceProvider.enabled(false);
     message: Disabling Strict Contextual escaping (SCE) in an AngularJS application could provide additional attack surface for XSS vulnerabilities.
