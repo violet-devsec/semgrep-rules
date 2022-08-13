@@ -21,6 +21,8 @@ rules:
             - pattern: |
                 new $Y.GetAsync($X);
             - pattern: |
+                new $Y.PostsAsync($X);
+            - pattern: |
                 WebRequest.Create($X);
             - pattern: |
                 $Y.GetAsync($X);
