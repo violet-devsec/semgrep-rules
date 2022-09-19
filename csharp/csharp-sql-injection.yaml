@@ -41,7 +41,7 @@
 - pattern: "(Session $SESS).Execute($ARG, ...);"
       - pattern-not: "(Session $SESS).Execute(\"...\", ...);"
   message: |
-    The method identified is susceptible to injection. The input should be validated and properly
+    Possible SQL Injection: The method identified is susceptible to injection. The input should be validated and properly
     escaped.
 languages:
   - "csharp"
