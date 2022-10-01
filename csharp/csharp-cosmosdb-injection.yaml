@@ -1,19 +1,27 @@
-- id: "csharp-cosmosdb-injection"
-  patterns:
-  - pattern-inside: |
+rules: 
+  - id: csharp-cosmos-sec
+    patterns:
+      - pattern-inside: |
           using Microsoft.Azure.Cosmos;
           ...
-  - patterns:
-      - metavariable-regex:
-          metavariable: "$FUNC"
-          regex: "^(GetItemQueryIterator|GetItemQueryStreamIterator|queryItems)$"
-      - pattern: "$DB.$FUNC($ARG, ...);"
-      - pattern-not: "$DB.$FUNC(\"...\", ...);"
-  message: |
-    Possible Cosmos DB injectin: The method identified is susceptible to injection. The input should be validated and properly
-    escaped.
-languages:
-  - "csharp"
-  severity: "ERROR"
-  metadata:
-    category: "security"
+      - patterns:
+          - metavariable-regex:
+              metavariable: $FUNC
+              regex: ^(GetItemQueryIterator|GetItemQueryStreamIterator|[qQ]ueryItems)$
+          - pattern-either: 
+            - pattern: |
+                var $VAR = $DB.$FUNC<$TYP>($ARG, ...);
+            - pattern: |
+                var $VAR = $DB.$FUNC($ARG, ...);
+            - pattern: |
+                $DB.$FUNC<$TYP>($ARG, ...);
+          - pattern-not: |
+              $DB.$FUNC<$TYP>(\"...\");
+    message: |
+      Possible Cosmos DB injection: The method identified is susceptible to injection. The input should be validated and properly escaped.
+    languages:
+      - csharp
+    severity: "ERROR"
+    metadata:
+      category: security
+      technology: .net
