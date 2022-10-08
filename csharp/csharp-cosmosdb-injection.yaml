@@ -7,7 +7,7 @@ rules:
       - patterns:
           - metavariable-regex:
               metavariable: $FUNC
-              regex: ^(GetItemQueryIterator|GetItemQueryStreamIterator|[qQ]ueryItems|CreateDocumentQuery)$
+              regex: ^(GetItemQueryIterator|GetItemQueryStreamIterator|CreateDocumentQuery)$
           - pattern-either: 
             - pattern: |
                 var $VAR = $DB.$FUNC<$TYP>($ARG, ...);
