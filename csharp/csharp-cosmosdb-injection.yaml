@@ -1,22 +1,29 @@
 rules: 
-  - id: csharp-cosmos-sec
-    patterns:
-      - pattern-inside: |
-          using Microsoft.Azure.Cosmos;
-          ...
-      - patterns:
-          - metavariable-regex:
-              metavariable: $FUNC
-              regex: ^(GetItemQueryIterator|GetItemQueryStreamIterator|CreateDocumentQuery)$
-          - pattern-either: 
-            - pattern: |
-                var $VAR = $DB.$FUNC<$TYP>($ARG, ...);
-            - pattern: |
-                var $VAR = $DB.$FUNC($ARG, ...);
-            - pattern: |
-                $DB.$FUNC<$TYP>($ARG, ...);
-          - pattern-not: |
-              $DB.$FUNC<$TYP>(\"...\");
+  - id: csharp-cosmosdb-injection
+    mode: taint
+    pattern-sources:
+      patterns:
+        - pattern-inside: |
+            using Microsoft.Azure.Cosmos;
+            ...
+        - pattern-either:
+          - pattern: |
+              $T $M(...) {
+                ...
+                string $QUERY = $"...{$INPUT}...";
+              }
+    pattern-sinks:
+      patterns:
+        - pattern-either: 
+          - pattern: |
+              var $VAR = $DB.$FUNC<$TYP>($ARG, ...);
+          - pattern: |
+              var $VAR = $DB.$FUNC($ARG, ...);
+          - pattern: |
+              $DB.$FUNC<$TYP>($ARG, ...);
+        - metavariable-regex:
+            metavariable: $FUNC
+            regex: ^(GetItemQueryIterator|GetItemQueryStreamIterator|CreateDocumentQuery)$        
     message: |
       Possible Cosmos DB injection: The method identified is susceptible to injection. The input should be validated and properly escaped.
     languages:
