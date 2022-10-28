@@ -18,6 +18,16 @@ rules:
                 ...
                 string $QUERY = $"...{$INPUT}...";
               }
+          - pattern: |
+              $T $M(...) {
+                ...
+                ... = string.Format(..., $INPUT);
+              }
+          - pattern: |
+              $T $M(...) {
+                ...
+                string $QUERY = string.Format("...", $INPUT);
+              }
     pattern-sinks:
       patterns:
         - pattern-either: 
