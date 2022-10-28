@@ -6,6 +6,12 @@ rules:
         - pattern-inside: |
             using Microsoft.Azure.Cosmos;
             ...
+        - pattern-inside: |
+            using Microsoft.Azure.Cosmos;
+            ...
+        - pattern-inside: |
+            using Microsoft.Azure.Documents;
+            ...
         - pattern-either:
           - pattern: |
               $T $M(...) {
