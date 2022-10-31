@@ -28,6 +28,16 @@ rules:
                 ...
                 string $QUERY = string.Format("...", $INPUT);
               }
+          - pattern: |
+              $T $M(...) {
+                ...
+                StringBuilder $QUERY = new StringBuilder($"...{$INPUT}...");
+              }
+          - pattern: |
+              $T $M(...) {
+                ... 
+                QueryDefinition $QUERY = new QueryDefinition("...", $INPUT);
+              }
     pattern-sinks:
       patterns:
         - pattern-either: 

@@ -1,6 +1,12 @@
 rules:
   - id: broken-access-control
     patterns:
+      - pattern-inside: |
+          using Microsoft.AspNetCore.Authorization;
+          ...
+      - pattern-inside: |
+          using Microsoft.AspNetCore.Mvc; 
+          ...      
       - pattern-either:
         - patterns:
           - pattern: |
@@ -21,12 +27,6 @@ rules:
       - pattern-not: |
           [Authorize]
           public $ACTIONRESULT $METHOD(...){ ... }
-      - pattern-inside: |
-          using Microsoft.AspNetCore.Authorization;
-          ...
-      - pattern-inside: |
-          using Microsoft.AspNetCore.Mvc; 
-          ...      
     message: Missing Authorize attribute or having AllowAnonymous attribute on mvc controller/action level.
     languages:
       - csharp
