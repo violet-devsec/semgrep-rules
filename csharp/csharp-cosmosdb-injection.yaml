@@ -40,13 +40,15 @@ rules:
               }
     pattern-sinks:
       patterns:
-        - pattern-either: 
+        - pattern-either:
           - pattern: |
-              var $VAR = $DB.$FUNC<$TYP>($ARG, ...);
+              $DB.$FUNC($ARG, ...);
+          - pattern: |
+              $DB.$FUNC<$TYP>($ARG, ...);
           - pattern: |
               var $VAR = $DB.$FUNC($ARG, ...);
           - pattern: |
-              $DB.$FUNC<$TYP>($ARG, ...);
+              var $VAR = $DB.$FUNC<$TYP>($ARG, ...);
         - metavariable-regex:
             metavariable: $FUNC
             regex: ^(GetItemQueryIterator|GetItemQueryStreamIterator|CreateDocumentQuery)$        
