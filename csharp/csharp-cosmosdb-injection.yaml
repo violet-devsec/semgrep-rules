@@ -4,7 +4,7 @@ rules:
     pattern-sources:
       patterns:
         - pattern-inside: |
-            using Microsoft.Azure.Cosmos;
+            using Azure.Cosmos;
             ...
         - pattern-inside: |
             using Microsoft.Azure.Cosmos;
