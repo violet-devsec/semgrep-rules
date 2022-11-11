@@ -12,6 +12,9 @@ rules:
         - pattern-inside: |
             using Microsoft.Azure.Documents;
             ...
+        - pattern-inside: |
+            using Microsoft.Azure.Documents.Client;
+            ...
         - pattern-either:
           - pattern: |
               $T $M(...) {
