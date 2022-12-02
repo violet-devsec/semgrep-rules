@@ -17,27 +17,27 @@ rules:
             ...
         - pattern-either:
           - pattern: |
-              $T $M(...string $INPUT, ...) {
+              $T $M(..., string $INPUT, ...) {
                 ...
                 string $QUERY = $"...{$INPUT}...";
               }
           - pattern: |
-              $T $M(...string $INPUT, ...) {
+              $T $M(..., string $INPUT, ...) {
                 ...
                 ... = string.Format(..., $INPUT);
               }
           - pattern: |
-              $T $M(...string $INPUT, ...) {
+              $T $M(..., string $INPUT, ...) {
                 ...
                 string $QUERY = string.Format("...", $INPUT);
               }
           - pattern: |
-              $T $M(...) {
+              $T $M(..., string $INPUT, ...) {
                 ...
                 StringBuilder $QUERY = new StringBuilder($"...{$INPUT}...");
               }
           - pattern: |
-              $T $M(...) {
+              $T $M(..., string $INPUT, ...) {
                 ... 
                 QueryDefinition $QUERY = new QueryDefinition("...", $INPUT);
               }
