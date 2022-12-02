@@ -17,17 +17,17 @@ rules:
             ...
         - pattern-either:
           - pattern: |
-              $T $M(...) {
+              $T $M(...string $INPUT, ...) {
                 ...
                 string $QUERY = $"...{$INPUT}...";
               }
           - pattern: |
-              $T $M(...) {
+              $T $M(...string $INPUT, ...) {
                 ...
                 ... = string.Format(..., $INPUT);
               }
           - pattern: |
-              $T $M(...) {
+              $T $M(...string $INPUT, ...) {
                 ...
                 string $QUERY = string.Format("...", $INPUT);
               }
