@@ -51,6 +51,8 @@ rules:
           - pattern: |
               var $VAR = $DB.$FUNC($ARG, ...);
           - pattern: |
+              var $VAR = $DB.$FUNC($ARG, ...).$OP();
+          - pattern: |
               var $VAR = $DB.$FUNC<$TYP>($ARG, ...);
           - pattern: |
               var $VAR = $DB.$FUNC<$TYP>($ARG, ...).$OP();
