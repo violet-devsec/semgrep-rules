@@ -1,0 +1,7 @@
+rules:
+  - id: net-mvc-ssrf-taint
+    mode: taint
+    pattern-sources:
+    pattern-sinks:
+    message:
+    metadata:
